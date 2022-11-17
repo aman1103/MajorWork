@@ -10,14 +10,16 @@ function App() {
   const [file, setFile] = useState();
   const [marks, setMarks] = useState(0);
   const handleSubmit = async () => {
+    console.log(file);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("marks", marks);
+    formData.append("file", file);
+    formData.append("startingData", startingDate);
+    formData.append("dueDate", dueDate);
+    console.log(formData);
     try {
-      await axios.post("http://localhost/4000/assignment/upload", {
-        name: name,
-        marks: marks,
-        assignment: file,
-        startingDate: startingDate,
-        dueDate: dueDate,
-      });
+      await axios.post("http://localhost:4000/assignment/upload", formData);
     } catch (e) {
       console.error(e);
     }
