@@ -49,17 +49,18 @@ app.post("/assignment/upload", upload.single("file"), (req, res) => {
 
 app.get("/assignment/view", (_req, res) => {
   console.log("called view assignment");
-  let a = [];
+  let a;
   Assignment.find()
-    .exec()
-    .then((assignments) =>
-      assignments.map((obj) => {
-        a.push(obj);
-      })
-    )
+    .then((assignments) => {
+      return res.status(200).json({ assignment: assignments });
+    })
     .catch((err) => console.log(err));
-  console.log(a);
-  res.send(a);
+});
+
+app.post("/assignment/view", (req, res) => {
+  const path = "uploads/" + req.body.fileurl;
+  console.log(path);
+  res.download(path);
 });
 
 app.listen(port, () => {
