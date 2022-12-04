@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 //@ts-noCheck
 
 import axios from "axios";
@@ -6,9 +7,10 @@ import fileDownload from "js-file-download";
 
 function ViewAssignment() {
   const [assignments, setAssignments] = useState([]);
+  const [responseFile, setResponseFile] = useState();
 
   const hanldeViewAssignments = async () => {
-    let tempStore = await axios.get("http://localhost:4000/assignment/view");
+    let tempStore = await axios.get("http://localhost:4000/assignments");
     console.log(tempStore.data.assignment);
     setAssignments(tempStore.data.assignment);
     console.log(assignments);
@@ -16,7 +18,7 @@ function ViewAssignment() {
 
   const handleSingleAssignment = async (fileUrl) => {
     const response = await axios.post(
-      `http://localhost:4000/assignment/view`,
+      `http://localhost:4000/assignments`,
       {
         fileurl: fileUrl,
       },
@@ -25,6 +27,20 @@ function ViewAssignment() {
       }
     );
     fileDownload(response.data, fileUrl);
+  };
+
+  const handleSubmit = async (fileUrl) => {
+    console.log(responseFile);
+    const formData = new FormData();
+    formData.append("file", responseFile);
+    formData.append("assignmentFile", fileUrl);
+    formData.append();
+    console.log(formData);
+    try {
+      await axios.post("http://localhost:4000/assignments/upload", formData);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -43,6 +59,20 @@ function ViewAssignment() {
             >
               {value.title}
             </a>
+            <br />
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => {
+                setResponseFile(e.target.files[0]);
+              }}
+            />
+            <br />
+            <button onClick={handleSubmit(value.assignmentFileUrl)}>
+              Submit Response
+            </button>
+            <br />
+            <br />
           </li>
         );
       })}

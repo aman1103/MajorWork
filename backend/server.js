@@ -1,9 +1,6 @@
 const express = require("express");
-const path = require("path");
 const cors = require("cors");
-const multer = require("multer");
 const mongoose = require("mongoose");
-const Assignment = require("./models/Assignment.models");
 require("dotenv").config();
 
 const app = express();
@@ -14,6 +11,7 @@ app.use(express.json());
 
 const uri = "mongodb://localhost:27017/lms";
 mongoose.connect(uri, {
+  // @ts-ignore
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -22,45 +20,29 @@ connection.once("open", () => {
   console.log("connected to MongoDB successfully!");
 });
 
-const storage = multer.diskStorage({
-  destination: "./uploads/",
-  filename: function (_req, file, cb) {
-    cb(null, "FILE_" + Date.now() + path.extname(file.originalname));
-  },
-});
+const usersRouter = require("./routes/users");
+// const classesRouter = require("./routes/classes");
+// const enrolledClassesRouter = require("./routes/enrolled_classes");
+// const classContentsRouter = require("./routes/class_contents");
+// const commentsRouter = require("./routes/comments");
+// const quizzesRouter = require("./routes/quizzes");
+// const quizResponsesRouter = require("./routes/quiz_responses");
+const assignmentsRouter = require("./routes/assignments");
+// const assignmentResponsesRouter = require("./routes/assignment_responses");
 
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 },
-});
+app.use("/users", usersRouter);
+// app.use("/classes", classesRouter);
+// app.use("/enrolled_classes", enrolledClassesRouter);
+// app.use("/class_contents", classContentsRouter);
+// app.use("/comments", commentsRouter);
+// app.use("/quizzes", quizzesRouter);
+// app.use("/quiz_responses", quizResponsesRouter);
+app.use("/assignments", assignmentsRouter);
+// app.use("/assignment_responses", assignmentResponsesRouter);
 
-app.post("/assignment/upload", upload.single("file"), (req, res) => {
-  const assignment = new Assignment({
-    title: req.body.name,
-    assignmentFileUrl: "FILE_" + Date.now() + path.extname(req.body.filename),
-    assignmentMarks: req.body.marks,
-    startingDate: req.body.startingDate,
-    dueDate: req.body.dueDate,
-  });
-  console.log(assignment);
-  assignment.save();
-  res.status(200);
-});
-
-app.get("/assignment/view", (_req, res) => {
-  console.log("called view assignment");
-  let a;
-  Assignment.find()
-    .then((assignments) => {
-      return res.status(200).json({ assignment: assignments });
-    })
-    .catch((err) => console.log(err));
-});
-
-app.post("/assignment/view", (req, res) => {
-  const path = "uploads/" + req.body.fileurl;
-  console.log(path);
-  res.download(path);
+app.use(function (err, req, res, next) {
+  console.log(err);
+  res.status(500).send({ error: err.message });
 });
 
 app.listen(port, () => {
