@@ -8,15 +8,15 @@ const nodemailer = require("nodemailer");
 // const DOMAIN = 'YOUR_MAILGUN_DOMAIN';
 // const mg = mailgun({apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN});
 
-router.route("/email-activate").post((req, res, next) => {
-  const { token } = req.body;
+router.route("/email-activate").get((req, res, next) => {
+  const token = req.query.token;
   if (token) {
     jwt.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET,
       (error, decodedToken) => {
         if (error) {
-          return res.status(400).send({ error: "Incorrect or expired link." });
+          return res.status(400).send("<h3>Incorrect or expired link.</h3>");
         }
         const { fullName, email, isTeacher, universityId, password } =
           decodedToken;
@@ -26,9 +26,7 @@ router.route("/email-activate").post((req, res, next) => {
             return res.status(400).send({ error: err.message });
           }
           if (user) {
-            return res
-              .status(400)
-              .send({ error: "An user with this email is already exist." });
+            return res.status(400).send("<h3>Email Already verified</h3>");
           }
           const newUser = new User({
             fullName,
@@ -40,7 +38,9 @@ router.route("/email-activate").post((req, res, next) => {
 
           newUser
             .save()
-            .then((newUser) => res.status(201).send(newUser))
+            .then((newUser) =>
+              res.status(201).send("<h3>Email verified Successfully</h3>")
+            )
             .catch(next);
         });
       }
@@ -69,13 +69,24 @@ router.route("/signup").post((req, res, next) => {
   console.log("Here");
   console.log(email, fullName, universityId, isTeacher, password);
 
-  const newUser = new User({
-    fullName,
-    email,
-    universityId,
-    isTeacher,
-    password,
+  User.findOne({ email }).exec((err, user) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    if (user) {
+      return res
+        .status(400)
+        .json({ error: "An user with this email is already exist." });
+    }
   });
+  // const newUser = new User({
+  //   fullName,
+  //   email,
+  //   universityId,
+  //   isTeacher,
+  //   password,
+  //   isVerified,
+  // });
 
   const token = jwt.sign(
     { email, fullName, universityId, isTeacher, password },
@@ -98,7 +109,7 @@ router.route("/signup").post((req, res, next) => {
                 <p>Welcome to classboard! For the next steps, please click on the below link to activate your account:</p>
 
                 <br>
-                <a class="button" href="${process.env.CLIENT_URL}/login?mode=verifyEmail&token=${token}">Verify my Classboard account</a>
+                <a class="button" href="http://localhost:4000/users/email-activate?token=${token}">Verify my Classboard account</a>
             </div>
         `,
   };
@@ -130,11 +141,11 @@ router.route("/signup").post((req, res, next) => {
   //     return res.status(200).send({"message": "Email has been sent! Please check your email account."});
   // });
 
-  newUser
-    .save()
-    // .then((newUser) => res.status(201).send({ newUser, token: token }))
-    .then((newUser) => res.status(201).send(newUser))
-    .catch(next);
+  // newUser
+  //   .save()
+  //   // .then((newUser) => res.status(201).send({ newUser, token: token }))
+  //   .then((newUser) => res.status(201).send(newUser))
+  //   .catch(next);
 });
 
 router.route("/signin").post((req, res, next) => {
@@ -158,7 +169,6 @@ router.route("/signin").post((req, res, next) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "1h" }
       );
-
       return res.status(200).send({ ...user._doc, token });
     } else {
       return res
