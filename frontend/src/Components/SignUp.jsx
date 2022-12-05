@@ -11,7 +11,7 @@ import {
   Alert,
 } from "@mui/material";
 
-const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9]{3,23}$/;
 const PASSWORD_REGEX =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -22,11 +22,11 @@ const SignUp = () => {
   const user = [
     {
       value: true,
-      label: "Teacher   ",
+      label: "Teacher",
     },
     {
       value: false,
-      label: "Student   ",
+      label: "Student",
     },
   ];
 
@@ -144,6 +144,7 @@ const SignUp = () => {
     };
     try {
       await axios.post("http://localhost:4000/users/signup", user);
+      setErrMsg("");
       setFirstName("");
       setLastName("");
       setEmail("");
@@ -158,7 +159,7 @@ const SignUp = () => {
 
   const handleRedirection = () => {
     navigate({
-      pathname: "/signin",
+      pathname: "/",
     });
   };
 
@@ -284,7 +285,7 @@ const SignUp = () => {
         </Grid>
         {success && (
           <Grid item xs={12}>
-            <Typography variant="h6">Check email for verification</Typography>
+            <Alert severity="success">Check email for verification</Alert>
           </Grid>
         )}
       </Grid>

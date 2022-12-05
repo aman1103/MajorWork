@@ -20,7 +20,6 @@ const SignIn = () => {
 
   //Error Messages Variables
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
 
   //Validating Email
   useEffect(() => {
@@ -51,21 +50,39 @@ const SignIn = () => {
   }, [password]);
   useEffect(() => {
     setErrMsg("");
+    if (localStorage.getItem("token")) {
+      const isTeacher = localStorage.getItem("isTeacher") === "true";
+      console.log(isTeacher);
+      if (isTeacher) {
+        navigate("/teacher");
+      } else {
+        navigate("/student");
+      }
+    }
   }, []);
 
   // Handling login click
   const handleLogin = async () => {
     setErrMsg("");
-    setSuccess(false);
     const user = {
       email: email,
       password: password,
     };
     try {
-      await axios.post("http://localhost:4000/users/signin", user);
-      setEmail("");
-      setPassword("");
-      setSuccess(true);
+      const response = await axios.post(
+        "http://localhost:4000/users/signin",
+        user
+      );
+      const data = response.data;
+      console.log(data);
+      localStorage.setItem("email", data.email);
+      localStorage.setItem("isTeacher", data.isTeacher);
+      localStorage.setItem("token", data.token);
+      if (data.isTeacher) {
+        navigate("/teacher");
+      } else {
+        navigate("student");
+      }
     } catch (err) {
       setErrMsg(err.response.data.error);
     }
@@ -86,9 +103,11 @@ const SignIn = () => {
           </Typography>
         </Grid>
         {errMsg !== "" && (
-          <Alert severity="error">
-            <p>{errMsg}</p>
-          </Alert>
+          <Grid item xs={12}>
+            <Alert severity="error">
+              <p>{errMsg}</p>
+            </Alert>
+          </Grid>
         )}
         <Grid item xs={12}>
           <TextField
@@ -133,11 +152,6 @@ const SignIn = () => {
             Sign Up
           </Button>
         </Grid>
-        {success && (
-          <Grid item xs={12}>
-            <Typography variant="h6">Check email for verification</Typography>
-          </Grid>
-        )}
       </Grid>
     </>
   );
