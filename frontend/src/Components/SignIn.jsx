@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Typography, Grid, Button, TextField, Alert } from "@mui/material";
+
 const PASSWORD_REGEX =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -77,51 +79,66 @@ const SignIn = () => {
 
   return (
     <>
-      <h1>Sign In</h1>
-      <br />
-      <br />
-      {errMsg !== "" && <p>{errMsg}</p>}
-      <label>
-        Email :
-        <input
-          required
-          placeholder="Email"
-          type="text"
-          autoComplete="off"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-      </label>
-
-      <br />
-      <br />
-
-      <label>
-        Password :
-        <input
-          required
-          type="password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-      </label>
-      <br />
-      <br />
-
-      <button
-        disabled={!validEmail || !validPassword ? true : false}
-        onClick={handleLogin}
-      >
-        Sign In
-      </button>
-      <p> Don't have an account</p>
-      <br />
-      <button onClick={handleRedirection}> Sign Up</button>
-      {success && <p>Check email for verification</p>}
+      <Grid container spacing={2} justifyContent="center" alignItems="center">
+        <Grid item xs={12}>
+          <Typography variant="h3" gutterBottom>
+            Sign In
+          </Typography>
+        </Grid>
+        {errMsg !== "" && (
+          <Alert severity="error">
+            <p>{errMsg}</p>
+          </Alert>
+        )}
+        <Grid item xs={12}>
+          <TextField
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+            required
+            type="text"
+            autoComplete="off"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            id="outlined-basic"
+            label="Password"
+            variant="outlined"
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            disabled={!validEmail || !validPassword ? true : false}
+            onClick={handleLogin}
+          >
+            Sign In
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h6"> Don't have an account</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Button variant="contained" onClick={handleRedirection}>
+            Sign Up
+          </Button>
+        </Grid>
+        {success && (
+          <Grid item xs={12}>
+            <Typography variant="h6">Check email for verification</Typography>
+          </Grid>
+        )}
+      </Grid>
     </>
   );
 };

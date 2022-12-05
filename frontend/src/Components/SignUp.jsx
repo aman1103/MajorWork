@@ -164,7 +164,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12}>
           <Typography variant="h3" gutterBottom>
             Sign Up
