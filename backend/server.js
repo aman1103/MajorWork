@@ -21,24 +21,24 @@ connection.once("open", () => {
 });
 
 const usersRouter = require("./routes/users");
-// const classesRouter = require("./routes/classes");
-// const enrolledClassesRouter = require("./routes/enrolled_classes");
-// const classContentsRouter = require("./routes/class_contents");
-// const commentsRouter = require("./routes/comments");
-// const quizzesRouter = require("./routes/quizzes");
-// const quizResponsesRouter = require("./routes/quiz_responses");
+const classesRouter = require("./routes/classes");
+const enrolledClassesRouter = require("./routes/enrolled_classes");
+const classContentsRouter = require("./routes/class_contents");
+const commentsRouter = require("./routes/comments");
+const quizzesRouter = require("./routes/quizzes");
+const quizResponsesRouter = require("./routes/quiz_responses");
 const assignmentsRouter = require("./routes/assignments");
-// const assignmentResponsesRouter = require("./routes/assignment_responses");
+const assignmentResponsesRouter = require("./routes/assignment_responses");
 
 app.use("/users", usersRouter);
-// app.use("/classes", classesRouter);
-// app.use("/enrolled_classes", enrolledClassesRouter);
-// app.use("/class_contents", classContentsRouter);
-// app.use("/comments", commentsRouter);
-// app.use("/quizzes", quizzesRouter);
-// app.use("/quiz_responses", quizResponsesRouter);
+app.use("/classes", classesRouter);
+app.use("/enrolled_classes", enrolledClassesRouter);
+app.use("/class_contents", classContentsRouter);
+app.use("/comments", commentsRouter);
+app.use("/quizzes", quizzesRouter);
+app.use("/quiz_responses", quizResponsesRouter);
 app.use("/assignments", assignmentsRouter);
-// app.use("/assignment_responses", assignmentResponsesRouter);
+app.use("/assignment_responses", assignmentResponsesRouter);
 
 app.use(function (err, req, res, next) {
   console.log(err);
