@@ -2,7 +2,14 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
-import TextField from "@mui/material/TextField";
+import {
+  Typography,
+  Button,
+  Grid,
+  TextField,
+  MenuItem,
+  Alert,
+} from "@mui/material";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
 const PASSWORD_REGEX =
@@ -12,6 +19,16 @@ const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const SignUp = () => {
   const navigate = useNavigate();
   const universityId = uuid();
+  const user = [
+    {
+      value: true,
+      label: "Teacher   ",
+    },
+    {
+      value: false,
+      label: "Student   ",
+    },
+  ];
 
   // First Name Variables
   const [firstName, setFirstName] = useState("");
@@ -110,6 +127,10 @@ const SignUp = () => {
     }
   }, [password, matchPassword]);
 
+  useEffect(() => {
+    setErrMsg("");
+  }, []);
+
   // Handling login click
   const handleLogin = async () => {
     setErrMsg("");
@@ -143,102 +164,130 @@ const SignUp = () => {
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <br />
-      <br />
-      {errMsg !== "" && <p>{errMsg}</p>}
-      <TextField
-        id="outlined-basic"
-        label="First Name"
-        variant="outlined"
-        required
-        type="text"
-        autoComplete="off"
-        value={firstName}
-        onChange={(e) => {
-          setFirstName(e.target.value);
-        }}
-      />
-
-      <br />
-      <br />
-      <TextField
-        id="outlined-basic"
-        label="Last Name"
-        variant="outlined"
-        required
-        type="text"
-        autoComplete="off"
-        value={lastName}
-        onChange={(e) => {
-          setLastName(e.target.value);
-        }}
-      />
-      <br />
-      <br />
-      <TextField
-        id="outlined-basic"
-        label="Email"
-        variant="outlined"
-        placeholder="Email"
-        type="text"
-        autoComplete="off"
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      />
-      <br />
-      <br />
-      <TextField
-        id="outlined-basic"
-        label="Password"
-        variant="outlined"
-        type="password"
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <br />
-      <br />
-
-      <TextField
-        id="outlined-basic"
-        label="Confirm Password"
-        variant="outlined"
-        type="password"
-        value={matchPassword}
-        onChange={(e) => {
-          setMatchPassword(e.target.value);
-        }}
-      />
-      <br />
-      <br />
-
-      <input
-        type="checkbox"
-        value={isTeacher}
-        onChange={() => setIsTeacher(!isTeacher)}
-      ></input>
-      <button
-        disabled={
-          !validFirstName ||
-          !validLastName ||
-          !validEmail ||
-          !validPassword ||
-          !validMatchPassword
-            ? true
-            : false
-        }
-        onClick={handleLogin}
-      >
-        Sign Up
-      </button>
-      <p> Already Registered?</p>
-      <br />
-      <button onClick={handleRedirection}> Sign In</button>
-      {success && <p>Check email for verification</p>}
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h3" gutterBottom>
+            Sign Up
+          </Typography>
+        </Grid>
+        {errMsg !== "" && (
+          <>
+            <Grid item xs={12}>
+              <Alert severity="error">{errMsg}</Alert>
+            </Grid>
+          </>
+        )}
+        <Grid item xs={6}>
+          <TextField
+            id="outlined-basic"
+            label="First Name"
+            variant="outlined"
+            required
+            type="text"
+            autoComplete="off"
+            value={firstName}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="outlined-basic"
+            label="Last Name"
+            variant="outlined"
+            required
+            type="text"
+            autoComplete="off"
+            value={lastName}
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+            type="text"
+            autoComplete="off"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="outlined-select-currency"
+            select
+            label="Teacher/Student"
+            value={isTeacher}
+            onChange={(e) => setIsTeacher(e.target.value)}
+          >
+            {user.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="outlined-basic"
+            label="Password"
+            variant="outlined"
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="outlined-basic"
+            label="Confirm Password"
+            variant="outlined"
+            type="password"
+            value={matchPassword}
+            onChange={(e) => {
+              setMatchPassword(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            disabled={
+              !validFirstName ||
+              !validLastName ||
+              !validEmail ||
+              !validPassword ||
+              !validMatchPassword
+                ? true
+                : false
+            }
+            onClick={handleLogin}
+          >
+            Sign Up
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h6">Already Registered?</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Button variant="contained" onClick={handleRedirection}>
+            Sign In
+          </Button>
+        </Grid>
+        {success && (
+          <Grid item xs={12}>
+            <Typography variant="h6">Check email for verification</Typography>
+          </Grid>
+        )}
+      </Grid>
     </>
   );
 };
