@@ -26,13 +26,13 @@ router.route("/").get((req, res, next) => {
 });
 
 router.route("/create").post((req, res, next) => {
-  let classCode = req.body.classCode;
+  //let classCode = req.body.classCode;
   let joinCode = req.body.joinCode;
-  let joinedAt = req.body.joinedAt;
+  let joinedAt = Date.now();
   let userId = req.body.userId;
 
   const newEnrolledClass = new EnrolledClass({
-    classCode,
+    //classCode,
     joinCode,
     userId,
     joinedAt,

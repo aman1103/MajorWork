@@ -78,6 +78,7 @@ const SignIn = () => {
       localStorage.setItem("email", data.email);
       localStorage.setItem("isTeacher", data.isTeacher);
       localStorage.setItem("token", data.token);
+      localStorage.setItem("universityId", data.universityId);
       if (data.isTeacher) {
         navigate("/teacher");
       } else {

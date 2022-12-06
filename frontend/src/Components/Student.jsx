@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar2 from "./NavBar2";
 
 const Student = () => {
   const [state, updateState] = useState([]);
@@ -17,6 +18,7 @@ const Student = () => {
   }, [state]);
   return (
     <>
+      <NavBar2 />
       <Typography variant="h3">Welcome Student</Typography>
     </>
   );

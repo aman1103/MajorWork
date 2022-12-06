@@ -11,18 +11,20 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import ClassJoin from "./ClassJoin";
+import ClassCreate from "./ClassCreate";
 
-const pages = [
-  {
-    name: "Create/Join Class",
-    link: "/",
-  },
-];
+// const pages = [
+//   {
+//     name: "Create/Join Class",
+//     link: "/",
+//   },
+// ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-const DiffNavBar = () => {
+const NavBar2 = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
@@ -42,6 +44,10 @@ const DiffNavBar = () => {
     setAnchorElUser(null);
   };
 
+  const handleCreateClass = async () => {};
+
+  const handleJoinClass = () => {};
+
   const handleMenu = (link) => {
     navigate({
       pathname: `/${link}`,
@@ -52,7 +58,7 @@ const DiffNavBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -91,29 +97,22 @@ const DiffNavBar = () => {
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
+              {localStorage.getItem("isTeacher") === "true" ? (
+                <MenuItem key="1" onClick={handleCreateClass}>
+                  Create Class
+                </MenuItem>
+                <FormDialog />
+              ) : (
+                <MenuItem key="2" onClick={handleJoinClass}>
+                  Join Class
+                </MenuItem>
+                <FormDialog />
+              )}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+              */}
+          <Box sx={{ flexGrow: 1, display: { md: "flex" } }}>
+            {/* {pages.map((page) => (
               <Button
                 key={page.name}
                 onClick={() => {
@@ -123,7 +122,18 @@ const DiffNavBar = () => {
               >
                 {page.name}
               </Button>
-            ))}
+            ))} */}
+            {localStorage.getItem("isTeacher") === "true" ? (
+              <ClassCreate />
+            ) : (
+              // <Button
+              //   sx={{ my: 2, color: "white", display: "block" }}
+              //   onClick={handleJoinClass}
+              // >
+              //   Join Class
+              // </Button>
+              <ClassJoin />
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -160,4 +170,4 @@ const DiffNavBar = () => {
     </AppBar>
   );
 };
-export default DiffNavBar;
+export default NavBar2;

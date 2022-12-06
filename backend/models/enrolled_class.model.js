@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const enrolledClassSchema = new Schema(
   {
-    classCode: { type: String, required: true },
+    classCode: { type: String, required: false },
     joinCode: { type: String, required: true },
     joinedAt: { type: String, required: true },
     userId: { type: String, required: true },

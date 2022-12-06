@@ -1,25 +1,26 @@
 const router = require("express").Router();
 let Class = require("../models/class.model");
 
-router.route("/").get((req, res, next) => {
-  Class.find()
+router.route("/").post((req, res, next) => {
+  const user = req.body.user;
+  Class.find({ user: user })
     .then((classes) => res.status(200).send(classes))
     .catch(next);
 });
 
 router.route("/create").post((req, res, next) => {
   let className = req.body.className;
-  let section = req.body.section;
+  //let section = req.body.section;
   let subject = req.body.subject;
-  let room = req.body.room;
+  //let room = req.body.room;
   let joinCode = req.body.joinCode;
   let user = req.body.user;
 
   const newClass = new Class({
     className,
-    section,
+    // section,
     subject,
-    room,
+    // room,
     joinCode,
     user,
   });
