@@ -13,7 +13,7 @@ export default function Class({ cls }) {
         component="img"
         height="140"
         image="https://images.cloudflareapps.com/ij5s5higSzWcOB6vks5Q_background-1.jpeg"
-        alt="green iguana"
+        alt="Mountains"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
