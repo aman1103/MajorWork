@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from "./NavBar";
 
 const Teacher = () => {
   const [state, updateState] = useState([]);
@@ -18,6 +19,7 @@ const Teacher = () => {
   }, [state]);
   return (
     <>
+      <NavBar />
       <Typography variant="h3">Welcome Teacher</Typography>
     </>
   );
