@@ -22,7 +22,7 @@ import ClassCreate from "./ClassCreate";
 //     link: "/",
 //   },
 // ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+// const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const NavBar2 = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -51,6 +51,13 @@ const NavBar2 = () => {
   const handleMenu = (link) => {
     navigate({
       pathname: `/${link}`,
+    });
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate({
+      pathname: "/",
     });
   };
 
@@ -88,11 +95,12 @@ const NavBar2 = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Box>
         </Toolbar>

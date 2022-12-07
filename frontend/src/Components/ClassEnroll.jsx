@@ -31,6 +31,7 @@ export default function ClassEnroll() {
         }
       );
       console.log(response);
+      window.location.reload();
     } catch (err) {
       console.log(err.response.data);
     }
