@@ -16,16 +16,16 @@ import { useNavigate } from "react-router-dom";
 
 const pages = [
   {
-    name: "Sessions",
-    link: "/",
+    name: "Notes",
+    link: "/class",
   },
   {
-    name: "Course work",
-    link: "/",
+    name: "Assignment",
+    link: "/assignment",
   },
   {
-    name: "Blog",
-    link: "/",
+    name: "Quiz",
+    link: "/quiz",
   },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];

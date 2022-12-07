@@ -8,6 +8,7 @@ const enrolledClassSchema = new Schema(
     joinCode: { type: String, required: true },
     joinedAt: { type: String, required: true },
     userId: { type: String, required: true },
+    className: { type: String, required: true },
   },
   {
     timestamps: true,

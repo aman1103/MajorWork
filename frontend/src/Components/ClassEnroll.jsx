@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 
-export default function ClassJoin() {
+export default function ClassEnroll() {
   const [open, setOpen] = React.useState(false);
   const [code, setCode] = React.useState("");
 
@@ -20,15 +20,20 @@ export default function ClassJoin() {
   };
 
   const handleJoin = async () => {
-    // setOpen(false);
+    setOpen(false);
     const universityId = localStorage.getItem("universityId");
-    const response = await axios.post(
-      "http://localhost:4000/enrolled_classes/create",
-      {
-        userId: universityId,
-        joinCode: code,
-      }
-    );
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/enrolled_classes/create",
+        {
+          userId: universityId,
+          joinCode: code,
+        }
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err.response.data);
+    }
   };
 
   return (

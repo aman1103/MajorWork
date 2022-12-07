@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const lodash = require("lodash");
 let EnrolledClass = require("../models/enrolled_class.model");
+let Class = require("../models/class.model");
 
 router.route("/").get((req, res, next) => {
   let query_param = req.query;
@@ -8,7 +9,9 @@ router.route("/").get((req, res, next) => {
     if (query_param.userId) {
       let userId = query_param.userId;
       EnrolledClass.find({ userId })
-        .then((enrolled_classes) => res.status(200).send(enrolled_classes))
+        .then((enrolled_classes) => {
+          res.status(200).json({ data: enrolled_classes });
+        })
         .catch(next);
     } else if (query_param.classCode) {
       let classCode = query_param.classCode;
@@ -31,17 +34,32 @@ router.route("/create").post((req, res, next) => {
   let joinedAt = Date.now();
   let userId = req.body.userId;
 
-  const newEnrolledClass = new EnrolledClass({
-    //classCode,
-    joinCode,
-    userId,
-    joinedAt,
-  });
+  Class.findOne({ joinCode: joinCode }).exec((err, cls) => {
+    if (err) {
+      res.status(400).send({ error: err.message });
+    }
+    if (!cls) {
+      return res
+        .status(403)
+        .json({ error: "Class with this join code not exist" });
+    } else {
+      const className = cls.className;
+      const newEnrolledClass = new EnrolledClass({
+        //classCode,
+        joinCode,
+        userId,
+        joinedAt,
+        className,
+      });
 
-  newEnrolledClass
-    .save()
-    .then((createdEnrolledClass) => res.status(200).send(createdEnrolledClass))
-    .catch(next);
+      newEnrolledClass
+        .save()
+        .then((createdEnrolledClass) =>
+          res.status(200).send(createdEnrolledClass)
+        )
+        .catch(next);
+    }
+  });
 });
 
 router.route("/:userId/:joinCode").get((req, res, next) => {

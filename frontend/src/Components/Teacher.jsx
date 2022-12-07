@@ -3,13 +3,13 @@ import { Typography } from "@mui/material";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar2 from "./NavBar2";
-import Class from "./Class";
+import ClassCard from "./ClassCard";
 import axios from "axios";
+import { Grid } from "@mui/material";
 
 const Teacher = () => {
   const [state, updateState] = useState([]);
   const [createdClasses, setCreatedClasses] = useState([]);
-  const forceUpdate = useCallback(() => updateState({}), []);
   const navigate = useNavigate();
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -38,9 +38,15 @@ const Teacher = () => {
     <>
       <NavBar2 />
       <br />
-      {createdClasses.map((cls) => {
-        return <Class cls={cls} />;
-      })}
+      <Grid container spacing={1}>
+        {createdClasses.map((cls) => {
+          return (
+            <Grid item xs={3}>
+              <ClassCard cls={cls} />
+            </Grid>
+          );
+        })}
+      </Grid>
     </>
   );
 };

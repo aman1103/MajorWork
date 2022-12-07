@@ -164,16 +164,41 @@ const SignUp = () => {
   };
 
   return (
-    <>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12}>
+    <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Grid
+        container
+        spacing={2}
+        sx={{ border: "solid black", maxWidth: "500px" }}
+      >
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Typography variant="h3" gutterBottom>
             Sign Up
           </Typography>
         </Grid>
         {errMsg !== "" && (
           <>
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <Alert severity="error">{errMsg}</Alert>
             </Grid>
           </>
@@ -258,7 +283,14 @@ const SignUp = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Button
             variant="contained"
             disabled={
@@ -275,21 +307,46 @@ const SignUp = () => {
             Sign Up
           </Button>
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Typography variant="h6">Already Registered?</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Button variant="contained" onClick={handleRedirection}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            sx={{ marginBottom: "10px" }}
+            variant="contained"
+            onClick={handleRedirection}
+          >
             Sign In
           </Button>
         </Grid>
         {success && (
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Alert severity="success">Check email for verification</Alert>
           </Grid>
         )}
       </Grid>
-    </>
+    </div>
   );
 };
 

@@ -96,22 +96,55 @@ const SignIn = () => {
   };
 
   return (
-    <>
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
-        <Grid item xs={12}>
+    <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Grid
+        container
+        spacing={2}
+        sx={{ border: "solid black", maxWidth: "500px" }}
+      >
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Typography variant="h3" gutterBottom>
             Sign In
           </Typography>
         </Grid>
         {errMsg !== "" && (
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Alert severity="error">
               <p>{errMsg}</p>
             </Alert>
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <TextField
+            sx={{ display: "block", margin: "0 auto" }}
             id="outlined-basic"
             label="Email"
             variant="outlined"
@@ -124,7 +157,14 @@ const SignIn = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <TextField
             id="outlined-basic"
             label="Password"
@@ -136,7 +176,14 @@ const SignIn = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Button
             variant="contained"
             disabled={!validEmail || !validPassword ? true : false}
@@ -145,16 +192,34 @@ const SignIn = () => {
             Sign In
           </Button>
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Typography variant="h6"> Don't have an account</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Button variant="contained" onClick={handleRedirection}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            sx={{ marginBottom: "10px" }}
+            variant="contained"
+            onClick={handleRedirection}
+          >
             Sign Up
           </Button>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 

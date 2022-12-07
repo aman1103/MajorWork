@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function ClassJoin() {
+export default function ClassCreate() {
   const [open, setOpen] = React.useState(false);
   const [className, setClassName] = React.useState("");
   const [subject, setSubject] = React.useState("");
@@ -32,7 +32,7 @@ export default function ClassJoin() {
       user: universityId,
     };
     await axios.post("http://localhost:4000/classes/create", cls);
-    navigate("/teacher");
+    window.location.reload();
   };
 
   return (
