@@ -12,8 +12,8 @@ const assignmentSchema = new Schema(
     type: { type: String, required: false },
     startingDate: { type: String, required: true },
     dueDate: { type: String, required: true },
-    authorId: { type: String, required: false },
-    classId: { type: String, required: false },
+    authorId: { type: String, required: true },
+    classId: { type: String, required: true },
   },
   {
     timestamps: true,

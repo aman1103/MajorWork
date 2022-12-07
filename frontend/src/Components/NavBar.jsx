@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 
 const pages = [
@@ -28,9 +27,9 @@ const pages = [
     link: "/quiz",
   },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+// const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-function NavBar() {
+function NavBar({ className }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
@@ -50,9 +49,16 @@ function NavBar() {
     setAnchorElUser(null);
   };
 
-  const handleMenu = (link) => {
+  const handleLogout = () => {
+    localStorage.clear();
     navigate({
-      pathname: `/${link}`,
+      pathname: "/",
+    });
+  };
+  const handleMenu = (link) => {
+    console.log(link);
+    navigate(`${link}`, {
+      state: { className: className },
     });
   };
   return (
@@ -136,11 +142,12 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Box>
         </Toolbar>

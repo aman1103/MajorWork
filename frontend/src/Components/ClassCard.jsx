@@ -10,7 +10,11 @@ import { useNavigate } from "react-router-dom";
 export default function ClassCard({ cls }) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/class");
+    navigate("/class", {
+      state: {
+        className: cls.className,
+      },
+    });
   };
 
   return (

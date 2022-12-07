@@ -6,7 +6,9 @@ import SignUp from "./Components/SignUp";
 import SignIn from "./Components/SignIn";
 import Teacher from "./Components/Teacher";
 import Student from "./Components/Student";
-import Class from "./Components/Class";
+import ClassContent from "./Components/ClassContent";
+import Assignment from "./Components/Assignment";
+import ViewAssignment from "./Components/ViewAssignment";
 
 function App() {
   return (
@@ -15,7 +17,9 @@ function App() {
       <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/teacher" element={<Teacher />}></Route>
       <Route path="/student" element={<Student />}></Route>
-      <Route path="/class" element={<Class />}></Route>
+      <Route path="/class" element={<ClassContent />}></Route>
+      <Route path="/assignment" element={<Assignment />}></Route>
+      <Route path="/viewAssignments" element={<ViewAssignment />}></Route>
     </Routes>
   );
 }
