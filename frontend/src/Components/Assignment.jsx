@@ -7,11 +7,12 @@ import NavBar from "./NavBar";
 import { Button } from "@mui/material";
 import CreateAssignment from "./CreateAssignment";
 import AssignmentTable from "./AssignmentTable";
+import AssignmentTableStudent from "./AssignmentTableStudent";
 
 function Assignment() {
-  const location = useLocation();
   const [assignments, setAssignments] = useState();
-  const className = location.state.className;
+  const className = localStorage.getItem("className");
+  const isTeacher = localStorage.getItem("isTeacher");
   const navigate = useNavigate();
 
   const getAssignments = async () => {
@@ -21,14 +22,7 @@ function Assignment() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      const isTeacher = localStorage.getItem("isTeacher");
-      if (!isTeacher) {
-        navigate({
-          pathname: "/student",
-        });
-      }
-    } else {
+    if (!localStorage.getItem("token")) {
       navigate({
         pathname: "/",
       });
@@ -39,12 +33,17 @@ function Assignment() {
     <>
       <NavBar />
       <br />
-      <Button sx={{ marginLeft: "10px" }} variant="contained">
-        <CreateAssignment className={className} />
-      </Button>
+      {isTeacher === true && (
+        <Button sx={{ marginLeft: "10px" }} variant="contained">
+          <CreateAssignment className={className} />
+        </Button>
+      )}
       <br />
-      {assignments !== undefined && (
+      {assignments !== undefined && isTeacher === "true" && (
         <AssignmentTable assignments={assignments} />
+      )}
+      {assignments !== undefined && isTeacher === "false" && (
+        <AssignmentTableStudent assignments={assignments} />
       )}
     </>
   );

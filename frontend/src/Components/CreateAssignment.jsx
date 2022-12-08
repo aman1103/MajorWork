@@ -37,7 +37,9 @@ export default function CreateAssignment({ className }) {
     formData.append("authorId", authorId);
     formData.append("classId", className);
     console.log(formData);
-    await axios.post("http://localhost:4000/assignments/create", formData);
+    axios.post("http://localhost:4000/assignments/create", formData);
+    handleClose();
+    window.location.reload();
   };
 
   return (

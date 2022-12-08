@@ -9,12 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 export default function ClassCard({ cls }) {
   const navigate = useNavigate();
+  localStorage.setItem("className", cls.className);
   const handleClick = () => {
-    navigate("/class", {
-      state: {
-        className: cls.className,
-      },
-    });
+    navigate("/class");
   };
 
   return (

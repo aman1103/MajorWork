@@ -9,13 +9,15 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import axios from "axios";
 import fileDownload from "js-file-download";
+import { TextField } from "@mui/material";
 
 function createData(title, marks, startingDate, dueDate, url, id) {
   return { title, marks, startingDate, dueDate, url, id };
 }
 
-export default function AssignmentTable({ assignments }) {
-  //   console.log(assignments);
+export default function AssignmentTableStudent({ assignments }) {
+  console.log(assignments);
+  const [value, setValue] = React.useState();
   let rows = [];
   assignments.map((assignment) => {
     return rows.push(
@@ -43,13 +45,30 @@ export default function AssignmentTable({ assignments }) {
     fileDownload(res.data, fileurl);
   };
 
-  const handleResponse = async (id) => {
-    const assignment_id = id;
-    const response = await axios.get(
-      `http://localhost:4000/assignment_responses?assignment_id=${assignment_id}`
+  const handleFileSubmit = async (assignment) => {
+    const assignment_id = assignment.id;
+    const assignmentFileUrl = value.name;
+    const userId = localStorage.getItem("universityId");
+    const res = new FormData();
+    res.append("assignment_id", assignment_id);
+    res.append("assignmentFileUrl", assignmentFileUrl);
+    res.append("userId", userId);
+    res.append("file", value);
+    const response = await axios.post(
+      "http://localhost:4000/assignment_responses/create",
+      res
     );
     console.log(response);
   };
+  //   const isSubmitted = async (assignment) => {
+  //     const assignment_id = assignment.id;
+  //     const userId = localStorage.getItem("universityId");
+  //     const response = await axios.get(
+  //       `http://localhost:4000/assignment_responses?userId=${userId}&&assignmentId=${assignment_id}`
+  //     );
+  //     console.log(response);
+  //     return false;
+  //   };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -59,7 +78,7 @@ export default function AssignmentTable({ assignments }) {
             <TableCell align="right">Marks</TableCell>
             <TableCell align="right">Starting Date</TableCell>
             <TableCell align="right">Due Date</TableCell>
-            <TableCell align="right">Responses</TableCell>
+            <TableCell align="center">Responses</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -77,8 +96,12 @@ export default function AssignmentTable({ assignments }) {
               <TableCell align="right">{row.startingDate}</TableCell>
               <TableCell align="right">{row.dueDate}</TableCell>
               <TableCell align="right">
-                <Button onClick={() => handleResponse(row.id)}>
-                  View Responses
+                <TextField
+                  type="file"
+                  onChange={(e) => setValue(e.target.files[0])}
+                />
+                <Button onClick={() => handleFileSubmit(row)}>
+                  Submit Response
                 </Button>
               </TableCell>
             </TableRow>

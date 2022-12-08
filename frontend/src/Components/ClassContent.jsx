@@ -4,8 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Typography } from "@mui/material";
 
 const Class = () => {
-  const location = useLocation();
-  const className = location.state.className;
+  const className = localStorage.getItem("className");
   console.log(className);
   return (
     <>
