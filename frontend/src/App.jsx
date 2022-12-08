@@ -9,6 +9,7 @@ import Student from "./Components/Student";
 import ClassContent from "./Components/ClassContent";
 import Assignment from "./Components/Assignment";
 import ViewAssignment from "./Components/ViewAssignment";
+import Quiz from "./Components/Quiz";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/class" element={<ClassContent />}></Route>
       <Route path="/assignment" element={<Assignment />}></Route>
       <Route path="/viewAssignments" element={<ViewAssignment />}></Route>
+      <Route path="/quiz" element={<Quiz />}></Route>
     </Routes>
   );
 }

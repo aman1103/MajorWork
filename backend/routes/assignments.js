@@ -2,12 +2,13 @@ const router = require("express").Router();
 const lodash = require("lodash");
 let Assignment = require("../models/assignment.model");
 const multer = require("multer");
-const path = require("path");
+const Path = require("path");
 
 const storage = multer.diskStorage({
   destination: "../uploads/",
   filename: function (_req, file, cb) {
-    cb(null, "FILE_" + Date.now() + path.extname(file.originalname));
+    console.log(file);
+    cb(null, "FILE_" + file.originalname);
   },
 });
 
@@ -41,44 +42,12 @@ router.route("/").get((req, res, next) => {
   }
 });
 
-// router.route("/create").post((req, res, next) => {
-//   let title = req.body.title;
-//   let instruction = req.body.instruction;
-//   let assignmentFileUrl = req.body.assignmentFileUrl;
-//   let assignmentMarks = req.body.assignmentMarks;
-//   let name = req.body.name;
-//   let type = req.body.type;
-//   let startingDate = req.body.startingDate;
-//   let dueDate = req.body.dueDate;
-//   let authorId = req.body.authorId;
-//   let classId = req.body.classId;
-
-//   const newAssignment = new Assignment({
-//     title,
-//     instruction,
-//     assignmentFileUrl,
-//     assignmentMarks,
-//     name,
-//     type,
-//     startingDate,
-//     dueDate,
-//     authorId,
-//     classId,
-//   });
-
-//   // save details using mongoose model
-//   newAssignment
-//     .save()
-//     .then((createdAssignment) => res.status(200).send(createdAssignment))
-//     .catch(next);
-// });
-
 router.route("/create").post(upload.single("file"), (req, res) => {
   const { name, filename, marks, startingDate, dueDate, authorId, classId } =
     req.body;
   const assignment = new Assignment({
     title: name,
-    assignmentFileUrl: "FILE_" + Date.now() + path.extname(filename),
+    assignmentFileUrl: "FILE_" + filename,
     assignmentMarks: marks,
     startingDate: startingDate,
     dueDate: dueDate,
@@ -88,6 +57,11 @@ router.route("/create").post(upload.single("file"), (req, res) => {
   console.log(assignment);
   assignment.save();
   res.status(200);
+});
+
+router.route("/").post((req, res) => {
+  const path = "../uploads/" + req.body.fileurl;
+  res.download(path);
 });
 
 router.route("/:id").get((req, res, next) => {
