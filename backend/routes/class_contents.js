@@ -8,7 +8,9 @@ router.route("/").get((req, res, next) => {
     if (query_param.classId) {
       let classId = query_param.classId;
       ClassContent.find({ classId })
-        .then((class_contents) => res.status(200).send(class_contents))
+        .then((class_contents) =>
+          res.status(200).json({ classContent: class_contents })
+        )
         .catch(next);
     } else {
       ClassContent.find()
