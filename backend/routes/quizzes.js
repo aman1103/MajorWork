@@ -23,20 +23,21 @@ router.route("/").get((req, res, next) => {
 });
 
 router.route("/create").post((req, res, next) => {
+  console.log(req.body);
   let title = req.body.title;
-  let instruction = req.body.instruction;
+  // let instruction = req.body.instruction;
   let quiz_questions = req.body.quiz_questions;
   let startingDate = req.body.startingDate;
-  let acceptingQuiz = req.body.acceptingQuiz;
+  // let acceptingQuiz = req.body.acceptingQuiz;
   let authorId = req.body.authorId;
   let classId = req.body.classId;
 
   const newQuiz = new Quiz({
     title,
-    instruction,
+    // instruction,
     quiz_questions,
     startingDate,
-    acceptingQuiz,
+    // acceptingQuiz,
     authorId,
     classId,
   });

@@ -5,20 +5,8 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import { Button } from "@mui/material";
-import CreateAssignment from "./CreateAssignment";
-import AssignmentTable from "./AssignmentTable";
-
 function Quiz() {
-  const location = useLocation();
-  const [assignments, setAssignments] = useState();
-  const className = location.state.className;
   const navigate = useNavigate();
-
-  const getAssignments = async () => {
-    const res = await axios.get("http://localhost:4000/assignments");
-    console.log(res.data);
-    setAssignments(res.data);
-  };
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -33,19 +21,22 @@ function Quiz() {
         pathname: "/",
       });
     }
-    getAssignments();
   }, []);
+
+  const handleClick = () => {
+    navigate({ pathname: "/createquiz" });
+  };
   return (
     <>
       <NavBar />
       <br />
-      <Button sx={{ marginLeft: "10px" }} variant="contained">
-        <CreateAssignment className={className} />
+      <Button
+        onClick={handleClick}
+        sx={{ marginLeft: "10px" }}
+        variant="contained"
+      >
+        Create Quiz
       </Button>
-      <br />
-      {assignments !== undefined && (
-        <AssignmentTable assignments={assignments} />
-      )}
     </>
   );
 }

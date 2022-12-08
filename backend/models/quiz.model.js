@@ -8,7 +8,7 @@ const quizSchema = new Schema(
     instruction: { type: String, required: false },
     quiz_questions: { type: Array, required: true },
     startingDate: { type: String, required: true },
-    acceptingQuiz: { type: String, required: true },
+    acceptingQuiz: { type: String, required: false },
     authorId: { type: String, required: true },
     classId: { type: String, required: true },
   },

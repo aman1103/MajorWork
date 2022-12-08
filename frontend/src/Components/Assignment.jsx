@@ -33,7 +33,7 @@ function Assignment() {
     <>
       <NavBar />
       <br />
-      {isTeacher === true && (
+      {isTeacher === "true" && (
         <Button sx={{ marginLeft: "10px" }} variant="contained">
           <CreateAssignment className={className} />
         </Button>

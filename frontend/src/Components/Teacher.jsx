@@ -19,6 +19,9 @@ const Teacher = () => {
     if (localStorage.getItem("isTeacher") === "false") {
       navigate("/student");
     }
+    if (localStorage.getItem("className")) {
+      localStorage.setItem("className", "");
+    }
   }, [state]);
 
   const fetchClasses = async () => {
